@@ -226,16 +226,7 @@ int findBus(Graph graph, int *S, int length){
                 printf("-> %s", str[++j]);
             }
         }
-        else{
-            if(xe[i] == xe[i-1] && i >= 1){
-                printf(" -> %s", str[++j]);
-                int j = 0;
-            }
-            else{
-                printf("\n- %d : %s", xe[i], str[j]);
-                printf(" -> %s", str[++j]);
-            }
-        }
+        else printf("Error: Khong tim thay ben xe.\n");
     }
     printf("\n");
 }
