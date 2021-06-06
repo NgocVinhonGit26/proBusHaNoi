@@ -30,5 +30,4 @@ int addGraph(Graph graph, JRB node, JRB newNode, int id);
 int Insert(Graph graph, char *str, int n, int k, int* i);
 int chooseBus(int **S, int xe[], int k);
 int BusGo(Graph graph, JRB node1, JRB node2, int **S, int k);
-JRB caydacbiet();
 JRB traverseNode(Graph graph, char *str);
