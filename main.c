@@ -15,11 +15,11 @@ void case1(Graph graph){
 
     printf("Chon diem xuat phat: ");
     scanf("%[^\n]", start);
-    strlwr(start);
+    strtolwr(start);
     clearBuffer();
     printf("Chon diem can den: ");
     scanf("%[^\n]", to);
-    strlwr(to);
+    strtolwr(to);
     clearBuffer();
     
     JRB node1 = traverseNode(graph, start);
@@ -29,11 +29,11 @@ void case1(Graph graph){
         printf("Qui khach nhap sai thong tin!!! Vui long nhap lai: \n");
         printf("Chon diem xuat phat: ");
         scanf("%[^\n]", start);
-        strlwr(start);
+        strtolwr(start);
         clearBuffer();
         printf("Chon diem can den: ");
         scanf("%[^\n]", to);
-        strlwr(to);
+        strtolwr(to);
         clearBuffer();
         node1 = traverseNode(graph, start);
         node2 = traverseNode(graph, to);
