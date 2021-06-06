@@ -9,8 +9,8 @@
 #define INFINITIVE_VALUE 10000000
 
 typedef struct Graph {
-    JRB edges; //id
-    JRB vertices; //string
+    JRB edges;
+    JRB vertices;
     JRB chieuTree;
 } Graph;
 
