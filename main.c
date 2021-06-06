@@ -22,8 +22,8 @@ void case1(Graph graph){
     strtolwr(to);
     clearBuffer();
     
-    JRB node1 = traverseNode(graph, start);
-    JRB node2 = traverseNode(graph, to);
+    JRB node1 = timXe(graph, start);
+    JRB node2 = timXe(graph, to);
 
     while(node1 == NULL || node2 == NULL || node1 == node2){
         printf("Qui khach nhap sai thong tin!!! Vui long nhap lai: \n");
@@ -35,14 +35,14 @@ void case1(Graph graph){
         scanf("%[^\n]", to);
         strtolwr(to);
         clearBuffer();
-        node1 = traverseNode(graph, start);
-        node2 = traverseNode(graph, to);
+        node1 = timXe(graph, start);
+        node2 = timXe(graph, to);
     }
     int Start = jval_i(node1->val);
     int To = jval_i(node2->val);
     int *path = (int*)malloc(sizeof(int) *10000), length;
     double a = djikstra_shortest(graph, Start, To, path, &length);
-    if(a < MAX) findBus(graph, path, length);
+    if(a < MAX) tuVanBus(graph, path, length);
     free(path);
     free(start);
     free(to);

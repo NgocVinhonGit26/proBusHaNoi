@@ -25,18 +25,10 @@ void dropGraph(Graph graph) {
     jrb_free_tree(graph.chieuTree);
 }
 
-int strtolwr(char str[]){
-    int i;
-    for( i = 0; i < strlen(str); i++){
-        str[i] = tolower(str[i]);
-    }
-    return 1;
-}
-
-int addGraph(Graph graph, JRB node, JRB nodes, int id){
+void addGraph(Graph graph, JRB node, JRB nodes, int id){
     JRB node1, node2;
 
-    if( node == NULL || nodes == NULL) return 1;
+    if( node == NULL || nodes == NULL) return;
     node1 = jrb_find_int((JRB)jval_v(node->val), jval_i(nodes->key));
     if(node1 != NULL){
         jrb_insert_int((JRB)jval_v(node1->val), id, new_jval_i(1));
@@ -46,7 +38,6 @@ int addGraph(Graph graph, JRB node, JRB nodes, int id){
         jrb_insert_int((JRB)jval_v(node->val), jval_i(nodes->key), new_jval_v(tree));
         jrb_insert_int(tree, id, new_jval_i(1));
     }
-    return 1;
 }
 
 int outdegree (Graph graph, int v, int* output)
@@ -138,14 +129,14 @@ double djikstra_shortest(Graph g, int s, int t, int *path, int *length){
     return distance_s_t;  
 }
 
-int chooseBus(int **S, int xe[], int k){
+void chonBusTheoTanXuat(int **B, int xe[], int k){
     int count[1000000], i;
 
     for(i = 0; i < k; i++) xe[i] = 0;
     for(i = 0; i < 1000000; i++) count[i] = 0;
     for(i = 0; i < k; i++){
-        for(int j = 0; S[i][j] != 0; j++){
-            count[S[i][j]]++;
+        for(int j = 0; B[i][j] != 0; j++){
+            count[B[i][j]]++;
         }
     }
     int ln;
@@ -159,54 +150,55 @@ int chooseBus(int **S, int xe[], int k){
             }
         }
         for (int h = 0; h < k; h++){
-            for (int j = 0; S[h][j] != 0; j++){
-                if(S[h][j] == i){
+            for (int j = 0; B[h][j] != 0; j++){
+                if(B[h][j] == i){
                     if(xe[h] == 0) xe[h] = i;
                 }
             }
         }
         for(int p = 0; xe[p] != 0; p++){
-            if(p == (k-1)) return 1;
+            if(p == (k-1)) return;
         }
         count[i] = 0;
     }
 }
 
-int BusGo(Graph graph, JRB node1, JRB node2, int **S, int k){
-    if(node1 == NULL || node2 == NULL) return 1;
-    JRB node3 = jrb_find_int(graph.edges, jval_i(node1->val));
+void getLuaChonBus(Graph graph, JRB truoc, JRB sau, int **B, int k){
+    if(truoc == NULL || sau == NULL) return;
+    JRB tree = jrb_find_int(graph.edges, jval_i(truoc->val));
 
-    node3 = jrb_find_int((JRB)jval_v(node3->val), jval_i(node2->val));
+    tree = jrb_find_int((JRB)jval_v(tree->val), jval_i(sau->val));
 
-    node3 = (JRB)jval_v(node3->val);
+    tree = (JRB)jval_v(tree->val);
 
-    JRB node4;
+    JRB node;
     int i = 0;
 
-    jrb_traverse(node4, node3){
-        S[k][i++] = jval_i(node4->key);
+    jrb_traverse(node, tree){
+        B[k][i++] = jval_i(node->key);
     }
-    S[k][i] = 0;
-    return 1;
+    B[k][i] = 0;
 }
 
-int findBus(Graph graph, int *S, int length){
+int tuVanBus(Graph graph, int *path, int length){
     JRB nodes = NULL;
     int i;
-
-    printf("Chi dan :\n");
-    char **str = (char **)malloc(sizeof(char) * MAX);
-    for(i = 0; i < 100; i++) str[i] = (char *)malloc(sizeof(char)* MAX);
-    int  **B = (int**)malloc(sizeof(int *) *1000), k = -1;
-    for(i = 0; i < 1000; i++){
+    int k = -1; //So lua chon
+    
+    char **str = (char **)malloc(sizeof(char) * length);
+    for(i = 0; i < length; i++) 
+        str[i] = (char *)malloc(sizeof(char)* MAX);
+    
+    int  **B = (int**)malloc(sizeof(int *) * length);
+    for(i = 0; i < length; i++)
         B[i] = (int *)malloc(sizeof(int) * 1000);
-    }
+        
     for(i = length - 1; i >= 0; i--){
         JRB node;
         jrb_traverse(node, graph.vertices){
-            if(jval_i(node->val) == S[i]){
+            if(jval_i(node->val) == path[i]){
                 strcpy(str[k+1], jval_s(node->key));
-                BusGo(graph, nodes, node, B, k++);
+                getLuaChonBus(graph, nodes, node, B, k++);
                 nodes = node;
             }
         }
@@ -214,7 +206,9 @@ int findBus(Graph graph, int *S, int length){
 
     int xe[1000000], j = 0;
 
-    chooseBus(B, xe, k);
+    chonBusTheoTanXuat(B, xe, k);
+    
+    printf("Chi dan :\n");
     for(i = 0; i < k; i++){
         JRB Node = jrb_find_int(graph.chieuTree, xe[i]);
         if(Node != NULL){
@@ -231,7 +225,7 @@ int findBus(Graph graph, int *S, int length){
     printf("\n");
 }
 
-JRB traverseNode(Graph graph, char *str) {
+JRB timXe(Graph graph, char *str) {
     char *Data = (char *)malloc(sizeof(char)*1000);
     JRB Node;
     strtolwr(str);

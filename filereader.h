@@ -1,13 +1,5 @@
 #include "bus.h"
 
-void clearBuffer() {
-    while(getchar() != '\n');
-}
-
-void fClearBuffer(FILE* ptr) {
-    while(getc(ptr) != '\n');
-}
-
 /*
 *Cac ham doc thanh phan,
 *Neu tra lai -1 (EOF) tuc la khong doc duoc
