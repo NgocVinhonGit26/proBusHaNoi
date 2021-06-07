@@ -225,7 +225,7 @@ int tuVanBus(Graph graph, int *path, int length){
     printf("\n");
 }
 
-JRB timXe(Graph graph, char *str) {
+JRB timBen(Graph graph, char *str) {
     char *Data = (char *)malloc(sizeof(char)*1000);
     JRB Node;
     strtolwr(str);
