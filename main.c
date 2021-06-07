@@ -35,8 +35,8 @@ void case1(Graph graph){
         scanf("%[^\n]", to);
         strtolwr(to);
         clearBuffer();
-        node1 = timXe(graph, start);
-        node2 = timXe(graph, to);
+        node1 = timBen(graph, start);
+        node2 = timBen(graph, to);
     }
     int Start = jval_i(node1->val);
     int To = jval_i(node2->val);
